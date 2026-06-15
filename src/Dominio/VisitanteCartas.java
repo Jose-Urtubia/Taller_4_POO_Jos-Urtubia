@@ -3,27 +3,29 @@ package Dominio;
 public class VisitanteCartas implements Visitor {
 
 	@Override
-	public void visitarPokemon(Pokemon pokemon) {
+	public void visit(Pokemon pokemon) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visitarEnergy(Energy energy) {
+	public void visit(Energy energy) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visitarItem(Item item) {
+	public void visit(Item item) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visitarSupporte(Supporter supporter) {
+	public void visit(Supporter supporter) {
 		// TODO Auto-generated method stub
 		
 	}
+
+
 
 }

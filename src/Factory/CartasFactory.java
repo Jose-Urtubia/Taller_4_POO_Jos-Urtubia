@@ -15,7 +15,7 @@ public class CartasFactory {
 			return new Pokemon(partes[0], partes[1], partes[3],partes[4]);
 		} else if(partes[2].equalsIgnoreCase("Item")) {
 			return new Item(partes[0], partes[1], partes[3]);
-		} else if (partes[2].equalsIgnoreCase("Item")) {
+		} else if (partes[2].equalsIgnoreCase("Supporter")) {
 			return new Supporter(partes[0], partes[1], partes[3]);
 		}
 		return new Energy(partes[0], partes[1], partes[3]);

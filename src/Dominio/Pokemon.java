@@ -33,7 +33,7 @@ public class Pokemon extends Carta {
 	@Override
 	public void aceptar(Visitor visitante) {
 		// TODO Auto-generated method stub
-		visitante.visitarPokemon(this);
+		visitante.visit(this);
 	}
 	
 }

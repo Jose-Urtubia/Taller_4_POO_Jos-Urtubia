@@ -19,7 +19,7 @@ public class Item extends Carta {
 	@Override
 	public void aceptar(Visitor visitante) {
 		// TODO Auto-generated method stub
-		visitante.visitarItem(this);;
+		visitante.visit(this);;
 	}
 	
 }

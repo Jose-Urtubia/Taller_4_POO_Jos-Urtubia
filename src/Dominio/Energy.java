@@ -15,7 +15,7 @@ public class Energy extends Carta {
 	@Override
 	public void aceptar(Visitor visitante) {
 		// TODO Auto-generated method stub
-		visitante.visitarEnergy(this);
+		visitante.visit(this);
 	}
 	public int getPoder() {
 		return poder;

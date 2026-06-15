@@ -1,8 +1,8 @@
 package Dominio;
 
 public interface Visitor {
-	void visitarPokemon(Pokemon pokemon);
-    void visitarEnergy(Energy energy);
-    void visitarItem(Item item);
-    void visitarSupporte(Supporter supporter);
+	void visit(Pokemon pokemon);
+    void visit(Energy energy);
+    void visit(Item item);
+    void visit(Supporter supporter);
 }
