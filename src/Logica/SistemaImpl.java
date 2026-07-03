@@ -11,7 +11,7 @@ import Visitor.Visitor;
 
 public class SistemaImpl implements ISistema {
 	private List<Carta> cartas= new ArrayList<Carta>();
-	private Visitor visitante = new VisitanteCartas();
+	private VisitanteCartas visitante = new VisitanteCartas();
 	private CartasFactory fabrica = new CartasFactory();
 	private static SistemaImpl instance;
 
@@ -60,9 +60,15 @@ public class SistemaImpl implements ISistema {
 	@Override
 	public void agregarCarta(String linea) {
 		// TODO Auto-generated method stub
+		Carta nueva = CartasFactory.factoryCartas(linea);
+		if (nueva != null) {
+			cartas.add(nueva); 
+		}
+	}
+	public List<Carta> getCartas() {
 		
-		Carta nueva = fabrica.factoryCartas(linea);
-		cartas.add(nueva);
+	    return this.cartas;
+	    
 	}
 	
 }

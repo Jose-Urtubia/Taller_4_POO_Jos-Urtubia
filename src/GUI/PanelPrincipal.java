@@ -2,12 +2,16 @@ package GUI;
 
 import javax.swing.*;
 
+import Dominio.Carta;
 import Logica.ISistema;
 import Logica.SistemaImpl;
+import Visitor.VisitanteCartas;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PanelPrincipal extends JFrame {
    
@@ -16,6 +20,8 @@ public class PanelPrincipal extends JFrame {
 	    private JPanel panelColeccion;
 	    private JTextField txtNombreCarta;
 	    private JLabel lblImagenCarta;
+	    private JTextArea areaTextoResultados;
+	    
 
 	    public PanelPrincipal() {
 	        setTitle("Colección Pokémon TCG - Sutrostian & POOsandon");
@@ -83,8 +89,6 @@ public class PanelPrincipal extends JFrame {
 	        lblImagenCarta.setBackground(Color.WHITE);
 	        lblImagenCarta.setOpaque(true);
 
-	        // ACCIONES DE LOS BOTONES CON LAMBDAS (FLECHITAS)
-	        
 	        btnAgregar.addActionListener(e -> {
 	            String nombre = txtNombreCarta.getText().trim();
 	            if (!nombre.isEmpty()) {
@@ -115,49 +119,50 @@ public class PanelPrincipal extends JFrame {
 	            JOptionPane.showMessageDialog(this, "Función Modificar ejecutada.");
 	        });
 
-	        // Agregar los componentes en orden al panel
+
 	        panel.add(lblTitulo);
 	        panel.add(lblNombre);
 	        panel.add(txtNombreCarta);
 	        panel.add(btnAgregar);
 	        panel.add(btnEliminar);
 	        panel.add(btnModificar);
-	        panel.add(lblImagenCarta); // Se agrega abajo el recuadro de la foto
+	        panel.add(lblImagenCarta); 
 
 	        return panel;
 	    }
 
-	    /**
-	     * Construye y retorna el panel correspondiente a la Pestaña 2: Ver Colección.
-	     * * @return El JPanel configurado con los botones de ordenamiento y visualización.
-	     */
+	    
 	    private JPanel crearPanelColeccion() {
 	        JPanel panel = new JPanel();
 	        panel.setPreferredSize(new Dimension(800, 520));
-	        panel.setBackground(new Color(255, 250, 240)); // Color crema
+	        panel.setBackground(new Color(255, 250, 240)); 
 	        
-	        JLabel lblTitulo = new JLabel("=== MI COLECCIÓN ===");
-	        lblTitulo.setFont(new Font("Arial", Font.BOLD, 16));
+	        JLabel lblTitulo = new JLabel("Colección penca");
+	        lblTitulo.setFont(new Font("", Font.BOLD, 16));
 	        panel.add(lblTitulo);
 
-	        // Botones de ordenamiento requeridos
+	        JTextArea areaTextoResultados = new JTextArea(15, 50);
 	        JButton btnOrdNombre = new JButton("Ordenar por Nombre");
 	        JButton btnOrdRareza = new JButton("Ordenar por Rareza");
 	        JButton btnOrdPoder = new JButton("Ordenar por Poder");
 
-	        // ACCIONES DE ORDENAMIENTO CON LAMBDAS
+	        
 	        btnOrdNombre.addActionListener(e -> {
 	            sistema.ordenarNombre();
+	            actualizarPantalla(panel);
 	            JOptionPane.showMessageDialog(this, "Colección ordenada alfabéticamente.");
+	            
 	        });
 
 	        btnOrdRareza.addActionListener(e -> {
 	            sistema.ordenarRareza();
+	            actualizarPantalla(panel);
 	            JOptionPane.showMessageDialog(this, "Colección ordenada por rareza.");
 	        });
 
 	        btnOrdPoder.addActionListener(e -> {
 	            sistema.ordenarPoder();
+	            actualizarPantalla(panel);
 	            JOptionPane.showMessageDialog(this, "Colección ordenada por poder (Visitor).");
 	        });
 
@@ -168,30 +173,49 @@ public class PanelPrincipal extends JFrame {
 	        return panel;
 	    }
 
-	    /**
-	     * Método auxiliar para cargar una imagen escalada en el visor.
-	     * Si no encuentra el archivo especificado, carga automáticamente una imagen por defecto.
-	     * * @param nombreCarta El nombre del archivo de imagen a buscar (sin extensión).
-	     */
+	    
+	     
 	    private void cargarImagen(String nombreCarta) {
 	        String rutaImagen = "imagenes/" + nombreCarta + ".png";
 	        ImageIcon icono = new ImageIcon(rutaImagen);
 
-	        // Control de errores / Validación: Si la imagen no existe en la ruta
+	    
 	        if (icono.getImageLoadStatus() != MediaTracker.COMPLETE) {
-	            // Carga la imagen por defecto como exige el taller
+	      
 	            rutaImagen = "imagenes/defecto.png"; 
 	            icono = new ImageIcon(rutaImagen);
 	        }
 
 	        if (icono.getImageLoadStatus() == MediaTracker.COMPLETE) {
-	            // Escalamos la imagen para que se adapte perfectamente al tamaño de 200x280
 	            Image imgEscalada = icono.getImage().getScaledInstance(200, 280, Image.SCALE_SMOOTH);
 	            lblImagenCarta.setIcon(new ImageIcon(imgEscalada));
-	            lblImagenCarta.setText(""); // Borramos el texto descriptivo
+	            lblImagenCarta.setText(""); 
 	        } else {
 	            lblImagenCarta.setIcon(null);
 	            lblImagenCarta.setText("Imagen no encontrada");
 	        }
+	    }
+	    private void actualizarPantalla(JPanel panel) {
+	        areaTextoResultados.setText("");
+	        
+	        VisitanteCartas calculador = new VisitanteCartas();
+	        
+	        List<Carta> listaCartas = ((SistemaImpl)sistema).getCartas();
+	        
+	        if (listaCartas.isEmpty()) {
+	            areaTextoResultados.setText("La colección está vacía. ¡Carga el archivo o agrega cartas!");
+	            return;
+	        }
+	        
+	        for (Carta c : listaCartas) {
+	            c.aceptar(calculador);
+	            int poder = calculador.getPoderCalculado();
+	            
+	            areaTextoResultados.append("• Nombre: " + c.getNombre() + " | Poder: " + poder + "\n");
+	        }
+	        
+
+	        panel.revalidate();
+	        panel.repaint();
 	    }
 	}

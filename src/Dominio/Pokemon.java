@@ -37,5 +37,6 @@ public class Pokemon extends Carta {
 		// TODO Auto-generated method stub
 		visitante.visit(this);
 	}
+	//hola
 	
 }
