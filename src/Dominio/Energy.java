@@ -1,5 +1,7 @@
 package Dominio;
 
+import Visitor.Visitor;
+
 public class Energy extends Carta {
 	private int poder;
 	private int rareza;

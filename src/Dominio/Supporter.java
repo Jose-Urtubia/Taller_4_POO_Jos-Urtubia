@@ -1,5 +1,7 @@
 package Dominio;
 
+import Visitor.Visitor;
+
 public class Supporter extends Carta {
 	private int rareza;
 	private int efectosPorTurno;

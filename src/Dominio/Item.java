@@ -1,5 +1,7 @@
 package Dominio;
 
+import Visitor.Visitor;
+
 public class Item extends Carta {
 	
 	private int rareza;

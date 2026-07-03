@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Dominio.*;
+import Factory.CartasFactory;
+import Visitor.VisitanteCartas;
+import Visitor.Visitor;
 
 
 public class SistemaImpl implements ISistema {
 	private List<Carta> cartas= new ArrayList<Carta>();
 	private Visitor visitante = new VisitanteCartas();
+	private CartasFactory fabrica = new CartasFactory();
 	private static SistemaImpl instance;
 
 	
@@ -20,11 +24,6 @@ public class SistemaImpl implements ISistema {
 		}
 		
 		return instance;
-	}
-	
-	public void agregarCarta() {
-		// TODO Auto-generated method stub
-
 	}
 	
 	
@@ -57,4 +56,13 @@ public class SistemaImpl implements ISistema {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void agregarCarta(String linea) {
+		// TODO Auto-generated method stub
+		
+		Carta nueva = fabrica.factoryCartas(linea);
+		cartas.add(nueva);
+	}
+	
 }

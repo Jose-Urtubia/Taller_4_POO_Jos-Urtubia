@@ -1,4 +1,9 @@
-package Dominio;
+package Visitor;
+
+import Dominio.Energy;
+import Dominio.Item;
+import Dominio.Pokemon;
+import Dominio.Supporter;
 
 public class VisitanteCartas implements Visitor {
 

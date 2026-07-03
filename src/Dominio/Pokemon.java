@@ -1,5 +1,7 @@
 package Dominio;
 
+import Visitor.Visitor;
+
 public class Pokemon extends Carta {
 	
 	private int daño;
